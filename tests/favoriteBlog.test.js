@@ -15,7 +15,7 @@ describe('favorite blog', () => {
     assert.deepStrictEqual(result, testList[3])
   })
 
-  test('from a bigger list the right one', () => {
+  test('from a bigger list is the right one', () => {
     const result = listHelper.favoriteBlog(testList)
     assert.deepStrictEqual(result, testList[2])
   })

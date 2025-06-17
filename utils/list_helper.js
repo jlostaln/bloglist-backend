@@ -15,10 +15,13 @@ const favoriteBlog = (blogs) => {
   : blogs.reduce((max, blog) => max.likes > blog.likes ? max : blog, blogs[0])
 }
 
-const mostBlogs = (blogs) => {
-  const blogCounts = blogs.reduce((acc, blog) => {
+const mostBlogs = (blogList) => {
+  if ( blogList.length === 0 ) {
+    return undefined
+  }
+
+  const blogCounts = blogList.reduce((acc, blog) => {
     acc[blog.author] = (acc[blog.author] || 0) + 1
-    console.log(acc)
     return acc
   }, {})
 
@@ -26,14 +29,27 @@ const mostBlogs = (blogs) => {
     const [author, blogs] = item
     return blogs > max.blogs ? {author, blogs} : max
   }, {author: null, blogs: 0})
-  console.log(highestBlogCount)
+
+  return highestBlogCount
 }
 
-mostBlogs(testList)
+const mostLikes = (blogList) => {
+
+  return blogList.length === 0 ? undefined : blogList.reduce((acc, blog) => {
+    acc[blog.author] = (acc[blog.author] || 0) + blog.likes
+    
+    return acc[blog.author] > acc.max.likes
+    ? {...acc, max: { author: blog.author, likes: acc[blog.author] }}
+    : acc
+  }, { max: { author: null, likes: 0 } }).max
+
+}
+
 
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
   mostBlogs,
+  mostLikes,
 }
