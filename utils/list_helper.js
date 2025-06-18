@@ -16,21 +16,15 @@ const favoriteBlog = (blogs) => {
 }
 
 const mostBlogs = (blogList) => {
-  if ( blogList.length === 0 ) {
-    return undefined
-  }
 
-  const blogCounts = blogList.reduce((acc, blog) => {
+  return blogList.length === 0 ? undefined : blogList.reduce((acc, blog) => {
     acc[blog.author] = (acc[blog.author] || 0) + 1
-    return acc
-  }, {})
 
-  const highestBlogCount = Object.entries(blogCounts).reduce((max, item) => {
-    const [author, blogs] = item
-    return blogs > max.blogs ? {author, blogs} : max
-  }, {author: null, blogs: 0})
+    return acc[blog.author] > acc.max.blogs
+    ? {...acc, max: { author: blog.author, blogs: acc[blog.author]}}
+    : acc
+  }, { max: { author: null, blogs: 0}}).max
 
-  return highestBlogCount
 }
 
 const mostLikes = (blogList) => {
